@@ -26,6 +26,32 @@ def get_repo_content(owner: str, repo: str, path: str = '') -> List[dict]:
     - List[dict]: List of repository contents
     """
     url = f'https://api.github.com/repos/{owner}/{repo}/contents/{path}'
+    """
+    E.g Response: [
+  {
+    "name": "file1.txt",
+    "path": "path/to/file1.txt",
+    "sha": "abc123",
+    "size": 1234,
+    "url": "https://api.github.com/repos/{owner}/{repo}/contents/path/to/file1.txt",
+    "html_url": "https://github.com/{owner}/{repo}/blob/main/path/to/file1.txt",
+    "git_url": "https://api.github.com/repos/{owner}/{repo}/git/blobs/abc123",
+    "download_url": "https://raw.githubusercontent.com/{owner}/{repo}/main/path/to/file1.txt",
+    "type": "file"
+  },
+  {
+    "name": "subdir",
+    "path": "path/to/subdir",
+    "sha": "def456",
+    "size": 0,
+    "url": "https://api.github.com/repos/{owner}/{repo}/contents/path/to/subdir",
+    "html_url": "https://github.com/{owner}/{repo}/tree/main/path/to/subdir",
+    "git_url": "https://api.github.com/repos/{owner}/{repo}/git/trees/def456",
+    "download_url": null,
+    "type": "dir"
+  }
+]
+    """
     response = requests.get(url, headers=headers)
     response.raise_for_status()
     return response.json()
@@ -68,7 +94,7 @@ def fetch_all_files(owner, repo, path='')->List[Tuple[str, str]]:
             file_content = get_file_content(owner, repo, item['path'])
             code_files.append((item['path'], file_content))
         elif item['type'] == 'dir':
-            # Recursively fetch contents of subdirectories
+            # Recursive call to do the same for the remaining tree
             code_files.extend(fetch_all_files(owner, repo, item['path']))
     
     return code_files
