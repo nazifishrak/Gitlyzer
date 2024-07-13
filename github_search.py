@@ -3,7 +3,7 @@ import requests
 from dotenv import load_dotenv
 import os
 from typing import List, Tuple
-
+# PRIVATE FILE ONLY TO BE USED FOR API SERVICE
 # Load environment variables
 load_dotenv()
 GITHUB_TOKEN = os.getenv('GITHUBTOKEN')
@@ -100,11 +100,4 @@ def fetch_all_files(owner, repo, path='')->List[Tuple[str, str]]:
     return code_files
 
 
-owner = 'nazifishrak'
-repo = 'Portfolio-Website'
 
-try:
-    files = fetch_all_files(owner, repo)
-    print(files[0])
-except Exception as e:
-    print(f"Error: {e}")
