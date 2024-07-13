@@ -1,0 +1,100 @@
+[
+    {
+        "label": "base64",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "base64",
+        "description": "base64",
+        "detail": "base64",
+        "documentation": {}
+    },
+    {
+        "label": "requests",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "requests",
+        "description": "requests",
+        "detail": "requests",
+        "documentation": {}
+    },
+    {
+        "label": "load_dotenv",
+        "importPath": "dotenv",
+        "description": "dotenv",
+        "isExtraImport": true,
+        "detail": "dotenv",
+        "documentation": {}
+    },
+    {
+        "label": "os",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "os",
+        "description": "os",
+        "detail": "os",
+        "documentation": {}
+    },
+    {
+        "label": "get_repo_content",
+        "kind": 2,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "def get_repo_content(owner, repo):\n    url = f'https://api.github.com/repos/{owner}/{repo}/contents'\n    response = requests.get(url, headers=headers)\n    response.raise_for_status()\n    return response.json()\ndef get_file_content(owner, repo, path):\n    url = f'https://api.github.com/repos/{owner}/{repo}/contents/{path}'\n    response = requests.get(url, headers=headers)\n    response.raise_for_status()\n    content = response.json()",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "get_file_content",
+        "kind": 2,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "def get_file_content(owner, repo, path):\n    url = f'https://api.github.com/repos/{owner}/{repo}/contents/{path}'\n    response = requests.get(url, headers=headers)\n    response.raise_for_status()\n    content = response.json()\n    return base64.b64decode(content['content']).decode('utf-8')\nowner = 'nazifishrak'\nrepo = 'Gitlyzer'\nrepo_content = get_repo_content(owner, repo)\nfor item in repo_content:",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "GITHUB_TOKEN",
+        "kind": 5,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "GITHUB_TOKEN = os.getenv('GITHUBTOKEN')\nheaders = {\n    'Authorization': f'token {GITHUB_TOKEN}'\n}\ndef get_repo_content(owner, repo):\n    url = f'https://api.github.com/repos/{owner}/{repo}/contents'\n    response = requests.get(url, headers=headers)\n    response.raise_for_status()\n    return response.json()\ndef get_file_content(owner, repo, path):",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "headers",
+        "kind": 5,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "headers = {\n    'Authorization': f'token {GITHUB_TOKEN}'\n}\ndef get_repo_content(owner, repo):\n    url = f'https://api.github.com/repos/{owner}/{repo}/contents'\n    response = requests.get(url, headers=headers)\n    response.raise_for_status()\n    return response.json()\ndef get_file_content(owner, repo, path):\n    url = f'https://api.github.com/repos/{owner}/{repo}/contents/{path}'",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "owner",
+        "kind": 5,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "owner = 'nazifishrak'\nrepo = 'Gitlyzer'\nrepo_content = get_repo_content(owner, repo)\nfor item in repo_content:\n    if item['type'] == 'file':\n        file_content = get_file_content(owner, repo, item['path'])\n        print(file_content)",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "repo",
+        "kind": 5,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "repo = 'Gitlyzer'\nrepo_content = get_repo_content(owner, repo)\nfor item in repo_content:\n    if item['type'] == 'file':\n        file_content = get_file_content(owner, repo, item['path'])\n        print(file_content)",
+        "detail": "app",
+        "documentation": {}
+    },
+    {
+        "label": "repo_content",
+        "kind": 5,
+        "importPath": "app",
+        "description": "app",
+        "peekOfCode": "repo_content = get_repo_content(owner, repo)\nfor item in repo_content:\n    if item['type'] == 'file':\n        file_content = get_file_content(owner, repo, item['path'])\n        print(file_content)",
+        "detail": "app",
+        "documentation": {}
+    }
+]
