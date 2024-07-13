@@ -35,66 +35,82 @@
         "documentation": {}
     },
     {
+        "label": "List",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Tuple",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
         "label": "get_repo_content",
         "kind": 2,
-        "importPath": "app",
-        "description": "app",
-        "peekOfCode": "def get_repo_content(owner, repo):\n    url = f'https://api.github.com/repos/{owner}/{repo}/contents'\n    response = requests.get(url, headers=headers)\n    response.raise_for_status()\n    return response.json()\ndef get_file_content(owner, repo, path):\n    url = f'https://api.github.com/repos/{owner}/{repo}/contents/{path}'\n    response = requests.get(url, headers=headers)\n    response.raise_for_status()\n    content = response.json()",
-        "detail": "app",
+        "importPath": "github_search",
+        "description": "github_search",
+        "peekOfCode": "def get_repo_content(owner: str, repo: str, path: str = '') -> List[dict]:\n    \"\"\"\n    Fetch the contents of a GitHub repository.\n    Parameters:\n    - owner (str): GitHub username\n    - repo (str): Repository name\n    - path (str): Path within the repository (default is root)\n    Returns:\n    - List[dict]: List of repository contents\n    \"\"\"",
+        "detail": "github_search",
         "documentation": {}
     },
     {
         "label": "get_file_content",
         "kind": 2,
-        "importPath": "app",
-        "description": "app",
-        "peekOfCode": "def get_file_content(owner, repo, path):\n    url = f'https://api.github.com/repos/{owner}/{repo}/contents/{path}'\n    response = requests.get(url, headers=headers)\n    response.raise_for_status()\n    content = response.json()\n    return base64.b64decode(content['content']).decode('utf-8')\nowner = 'nazifishrak'\nrepo = 'Gitlyzer'\nrepo_content = get_repo_content(owner, repo)\nfor item in repo_content:",
-        "detail": "app",
+        "importPath": "github_search",
+        "description": "github_search",
+        "peekOfCode": "def get_file_content(owner: str, repo: str, path: str) -> str:\n    \"\"\"\n    Fetch the content of a file in a GitHub repository.\n    Parameters:\n    - owner (str): GitHub username\n    - repo (str): Repository name\n    - path (str): Path to the file within the repository\n    Returns:\n    - str: Decoded content of the file\n    \"\"\"",
+        "detail": "github_search",
+        "documentation": {}
+    },
+    {
+        "label": "fetch_all_files",
+        "kind": 2,
+        "importPath": "github_search",
+        "description": "github_search",
+        "peekOfCode": "def fetch_all_files(owner, repo, path='')->List[Tuple[str, str]]:\n    \"\"\"\n    Recursively fetch the content of all code files in a GitHub repository.\n    Parameters:\n    - owner (str): GitHub username\n    - repo (str): Repository name\n    - path (str): Path within the repository (default is root)\n    Returns:\n    - List[Tuple[str, str]]: List of tuples containing file paths and their content\n    \"\"\"",
+        "detail": "github_search",
         "documentation": {}
     },
     {
         "label": "GITHUB_TOKEN",
         "kind": 5,
-        "importPath": "app",
-        "description": "app",
-        "peekOfCode": "GITHUB_TOKEN = os.getenv('GITHUBTOKEN')\nheaders = {\n    'Authorization': f'token {GITHUB_TOKEN}'\n}\ndef get_repo_content(owner, repo):\n    url = f'https://api.github.com/repos/{owner}/{repo}/contents'\n    response = requests.get(url, headers=headers)\n    response.raise_for_status()\n    return response.json()\ndef get_file_content(owner, repo, path):",
-        "detail": "app",
+        "importPath": "github_search",
+        "description": "github_search",
+        "peekOfCode": "GITHUB_TOKEN = os.getenv('GITHUBTOKEN')\n# Set headers for authorization\nheaders = {\n    'Authorization': f'token {GITHUB_TOKEN}'\n}\ndef get_repo_content(owner: str, repo: str, path: str = '') -> List[dict]:\n    \"\"\"\n    Fetch the contents of a GitHub repository.\n    Parameters:\n    - owner (str): GitHub username",
+        "detail": "github_search",
         "documentation": {}
     },
     {
         "label": "headers",
         "kind": 5,
-        "importPath": "app",
-        "description": "app",
-        "peekOfCode": "headers = {\n    'Authorization': f'token {GITHUB_TOKEN}'\n}\ndef get_repo_content(owner, repo):\n    url = f'https://api.github.com/repos/{owner}/{repo}/contents'\n    response = requests.get(url, headers=headers)\n    response.raise_for_status()\n    return response.json()\ndef get_file_content(owner, repo, path):\n    url = f'https://api.github.com/repos/{owner}/{repo}/contents/{path}'",
-        "detail": "app",
+        "importPath": "github_search",
+        "description": "github_search",
+        "peekOfCode": "headers = {\n    'Authorization': f'token {GITHUB_TOKEN}'\n}\ndef get_repo_content(owner: str, repo: str, path: str = '') -> List[dict]:\n    \"\"\"\n    Fetch the contents of a GitHub repository.\n    Parameters:\n    - owner (str): GitHub username\n    - repo (str): Repository name\n    - path (str): Path within the repository (default is root)",
+        "detail": "github_search",
         "documentation": {}
     },
     {
         "label": "owner",
         "kind": 5,
-        "importPath": "app",
-        "description": "app",
-        "peekOfCode": "owner = 'nazifishrak'\nrepo = 'Gitlyzer'\nrepo_content = get_repo_content(owner, repo)\nfor item in repo_content:\n    if item['type'] == 'file':\n        file_content = get_file_content(owner, repo, item['path'])\n        print(file_content)",
-        "detail": "app",
+        "importPath": "github_search",
+        "description": "github_search",
+        "peekOfCode": "owner = 'nazifishrak'\nrepo = 'Portfolio-Website'\ntry:\n    files = fetch_all_files(owner, repo)\n    print(files[0])\nexcept Exception as e:\n    print(f\"Error: {e}\")",
+        "detail": "github_search",
         "documentation": {}
     },
     {
         "label": "repo",
         "kind": 5,
-        "importPath": "app",
-        "description": "app",
-        "peekOfCode": "repo = 'Gitlyzer'\nrepo_content = get_repo_content(owner, repo)\nfor item in repo_content:\n    if item['type'] == 'file':\n        file_content = get_file_content(owner, repo, item['path'])\n        print(file_content)",
-        "detail": "app",
-        "documentation": {}
-    },
-    {
-        "label": "repo_content",
-        "kind": 5,
-        "importPath": "app",
-        "description": "app",
-        "peekOfCode": "repo_content = get_repo_content(owner, repo)\nfor item in repo_content:\n    if item['type'] == 'file':\n        file_content = get_file_content(owner, repo, item['path'])\n        print(file_content)",
-        "detail": "app",
+        "importPath": "github_search",
+        "description": "github_search",
+        "peekOfCode": "repo = 'Portfolio-Website'\ntry:\n    files = fetch_all_files(owner, repo)\n    print(files[0])\nexcept Exception as e:\n    print(f\"Error: {e}\")",
+        "detail": "github_search",
         "documentation": {}
     }
 ]
