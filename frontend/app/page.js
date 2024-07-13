@@ -1,19 +1,20 @@
-'use client';
-import { useEffect, useState } from 'react';
-import Image from 'next/image';
-import Markdown from 'markdown-to-jsx';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { dracula } from 'react-syntax-highlighter/dist/cjs/styles/prism';
+"use client";
+import { useEffect, useState } from "react";
+import Image from "next/image";
+import Markdown from "markdown-to-jsx";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { dracula } from "react-syntax-highlighter/dist/cjs/styles/prism";
 
 export default function Home() {
-  const [repo, setRep] = useState('');
-  const [question, setQuestion] = useState('Write');
-  const [response, setResponse] = useState('');
+  const [repo, setRep] = useState("");
+  const [question, setQuestion] = useState("Write");
+  const [response, setResponse] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [username, setusername] = useState('');
-  const [endpoint, setEndpoint] = useState('search_code');
-  const [loadMessage, setLoadMessage] = useState('Analyzing ⚡...');
-  const [questionLabel, setQuestionLabel] = useState('Question');
+  const [username, setusername] = useState("");
+  const [endpoint, setEndpoint] = useState("search_code");
+  const [clipboard, setClipboard] = useState(false);
+  const [loadMessage, setLoadMessage] = useState("Analyzing ⚡...");
+  const [questionLabel, setQuestionLabel] = useState("Question");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -25,42 +26,46 @@ export default function Home() {
 
     try {
       const res = await fetch(`http://127.0.0.1:5000/${endpoint}`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(body),
       });
 
       const json = await res.json();
-      console.log(json)
-      let output_str=''
+      console.log(json);
+      let output_str = "";
       for (const value of json) {
         if (value && value.length > 1 && value[1]) {
-            output_str += value[1];
+          output_str += value[1];
         } else {
-            console.warn('Encountered undefined value:', value);
+          console.warn("Encountered undefined value:", value);
         }
-    }
+      }
       setResponse(output_str);
       if (res.status === 200) {
         console.log(json);
       }
     } catch (error) {
-      console.error('Error generating', error);
-      setResponse({ error: 'Error analysing' });
-      alert('Error analysing');
+      console.error("Error generating", error);
+      setResponse({ error: "Error analysing" });
+      alert("Error analysing");
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const onClipboardClick = (prompt) => {
+    navigator.clipboard.writeText(prompt);
+    setClipboard(true);
   };
 
   return (
     <div className="relative min-h-screen">
       {/* Background pattern and effect */}
       <div className="absolute inset-0 -z-10 bg-black bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px] ">
-      <div className="absolute top-0 z-[-2] h-screen w-screen bg-[#000000] bg-[radial-gradient(#ffffff33_1px,#00091d_1px)] bg-[size:20px_20px]"></div>
-          
+        <div className="absolute top-0 z-[-2] h-screen w-screen bg-[#000000] bg-[radial-gradient(#ffffff33_1px,#00091d_1px)] bg-[size:20px_20px]"></div>
       </div>
       {/* Main content */}
       <div className="">
@@ -71,15 +76,22 @@ export default function Home() {
               height={100}
               width={300}
               alt="Github logo"
-              className='justify-start'
+              className="justify-start"
             />
-            <h1 className="text-5xl font-extrabold mt-6 mb-6 text-white">Gitlyzer ⚡️</h1>
+            <h1 className="text-5xl font-extrabold mt-6 mb-6 text-white">
+              Gitlyzer ⚡️
+            </h1>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="md:flex md:space-x-6">
               <div className="flex-1">
-                <label htmlFor="repo" className="block text-sm font-bold mb-2 text-white">Repository Name</label>
+                <label
+                  htmlFor="repo"
+                  className="block text-sm font-bold mb-2 text-white"
+                >
+                  Repository Name
+                </label>
                 <input
                   type="text"
                   id="repo"
@@ -91,7 +103,12 @@ export default function Home() {
               </div>
 
               <div className="flex-1">
-                <label htmlFor="username" className="block text-sm font-bold mb-2 text-white">User Name</label>
+                <label
+                  htmlFor="username"
+                  className="block text-sm font-bold mb-2 text-white"
+                >
+                  User Name
+                </label>
                 <input
                   type="text"
                   id="username"
@@ -104,22 +121,38 @@ export default function Home() {
             </div>
 
             <div>
-              <label htmlFor="question" className="block text-sm font-bold mb-2 text-gray-700 dark:text-gray-300">{questionLabel}</label>
-              <input
-                type="text"
-                id="question"
-                value={question}
-                onChange={(e) => { setQuestion(e.target.value); }}
-                required
-                className="w-full px-3 py-2 text-black placeholder-gray-300 dark:placeholder-gray-500 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 dark:focus:ring-indigo-900 focus:border-indigo-300 dark:focus:border-indigo-700"
-              />
+              <label
+                htmlFor="question"
+                className="block text-sm font-bold mb-2 text-gray-700 dark:text-gray-300"
+              >
+                {questionLabel}
+              </label>
+              <div className="grid grid-cols-8 w-full">
+                <input
+                  type="text"
+                  id="question"
+                  value={question}
+                  onChange={(e) => {
+                    setQuestion(e.target.value);
+                  }}
+                  required
+                  className="col-span-6 px-3 py-2 text-black placeholder-gray-300 dark:placeholder-gray-500 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 dark:focus:ring-indigo-900 focus:border-indigo-300 dark:focus:border-indigo-700"
+                />
+                <button
+                  type="button"
+                  onClick={() => {
+                    onClipboardClick(question);
+                  }}
+                  class="col-span-2 relative inline-flex items-center justify-center px-3 py-2 text-lg font-bold text-white transition-all duration-200 bg-gray-900 font-pj rounded-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900"
+                >
+                  {clipboard ? "Copied!" : "Copy"}
+                </button>
+              </div>
             </div>
 
             <div className="rounded-xl flex justify-center items-center">
               <div className="rounded-xl relative inline-flex group">
-                <div
-                  className="absolute transition-all duration-1000 opacity-70 -inset-px bg-gradient-to-r from-[#44BCFF] via-[#FF44EC] to-[#FF675E] rounded-xl blur-lg group-hover:opacity-100 group-hover:-inset-1 group-hover:duration-200 animate-tilt">
-                </div>
+                <div className="absolute transition-all duration-1000 opacity-70 -inset-px bg-gradient-to-r from-[#44BCFF] via-[#FF44EC] to-[#FF675E] rounded-xl blur-lg group-hover:opacity-100 group-hover:-inset-1 group-hover:duration-200 animate-tilt"></div>
                 <button
                   type="submit"
                   className="relative inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white transition-all duration-200 bg-gray-900 font-pj rounded-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900"
@@ -128,7 +161,6 @@ export default function Home() {
                 </button>
               </div>
             </div>
-            
           </form>
 
           {isLoading ? (
