@@ -11,7 +11,7 @@ export default function Home() {
   const [response, setResponse] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [username, setusername] = useState('');
-  const [endpoint, setEndpoint] = useState('search_code');
+  const [endpoint, setEndpoint] = useState('summarise');
   const [loadMessage, setLoadMessage] = useState('Analyzing ⚡...');
   const [questionLabel, setQuestionLabel] = useState('Question');
 
@@ -34,15 +34,8 @@ export default function Home() {
 
       const json = await res.json();
       console.log(json)
-      let output_str=''
-      for (const value of json) {
-        if (value && value.length > 1 && value[1]) {
-            output_str += value[1];
-        } else {
-            console.warn('Encountered undefined value:', value);
-        }
-    }
-      setResponse(output_str);
+      
+      setResponse(json);
       if (res.status === 200) {
         console.log(json);
       }
@@ -140,7 +133,7 @@ export default function Home() {
           ) : (
             response && (
               <div className="mt-6">
-                {/* <Markdown
+                <Markdown
                   className="prose prose-lg dark:prose-dark text-gray-700 dark:text-gray-300 mx-auto"
                   options={{
                     overrides: {
@@ -196,8 +189,8 @@ export default function Home() {
                   }}
                 >
                   {response}
-                </Markdown> */}
-                {response}
+                </Markdown>
+                
               </div>
             )
           )}
