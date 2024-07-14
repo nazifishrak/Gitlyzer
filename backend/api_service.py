@@ -1,8 +1,8 @@
 import requests
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from github_search import fetch_all_files
-from analyze_code import analyzer
+from backend.github_search import fetch_all_files
+from backend.analyze_code import analyzer
 app = Flask(__name__)
 # EXPOSED API INTERFACE
 CORS(app)

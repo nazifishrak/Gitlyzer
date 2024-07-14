@@ -1,30 +1,5 @@
 [
     {
-        "label": "json",
-        "kind": 6,
-        "isExtraImport": true,
-        "importPath": "json",
-        "description": "json",
-        "detail": "json",
-        "documentation": {}
-    },
-    {
-        "label": "stringify",
-        "importPath": "flatted",
-        "description": "flatted",
-        "isExtraImport": true,
-        "detail": "flatted",
-        "documentation": {}
-    },
-    {
-        "label": "parse",
-        "importPath": "flatted",
-        "description": "flatted",
-        "isExtraImport": true,
-        "detail": "flatted",
-        "documentation": {}
-    },
-    {
         "label": "os",
         "kind": 6,
         "isExtraImport": true,
@@ -101,18 +76,18 @@
     },
     {
         "label": "fetch_all_files",
-        "importPath": "github_search",
-        "description": "github_search",
+        "importPath": "backend.github_search",
+        "description": "backend.github_search",
         "isExtraImport": true,
-        "detail": "github_search",
+        "detail": "backend.github_search",
         "documentation": {}
     },
     {
         "label": "analyzer",
-        "importPath": "analyze_code",
-        "description": "analyze_code",
+        "importPath": "backend.analyze_code",
+        "description": "backend.analyze_code",
         "isExtraImport": true,
-        "detail": "analyze_code",
+        "detail": "backend.analyze_code",
         "documentation": {}
     },
     {
@@ -138,6 +113,148 @@
         "description": "typing",
         "isExtraImport": true,
         "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "json",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "json",
+        "description": "json",
+        "detail": "json",
+        "documentation": {}
+    },
+    {
+        "label": "stringify",
+        "importPath": "flatted",
+        "description": "flatted",
+        "isExtraImport": true,
+        "detail": "flatted",
+        "documentation": {}
+    },
+    {
+        "label": "parse",
+        "importPath": "flatted",
+        "description": "flatted",
+        "isExtraImport": true,
+        "detail": "flatted",
+        "documentation": {}
+    },
+    {
+        "label": "upload_to_gemini",
+        "kind": 2,
+        "importPath": "backend.analyze_code",
+        "description": "backend.analyze_code",
+        "peekOfCode": "def upload_to_gemini(path, mime_type=None):\n  \"\"\"Uploads the given file to Gemini.\n  See https://ai.google.dev/gemini-api/docs/prompting_with_media\n  \"\"\"\n  file = genai.upload_file(path, mime_type=mime_type)\n  print(f\"Uploaded file '{file.display_name}' as: {file.uri}\")\n  return file\n# https://ai.google.dev/api/python/google/generativeai/GenerativeModel\ngeneration_config = {\n  \"temperature\": 1,",
+        "detail": "backend.analyze_code",
+        "documentation": {}
+    },
+    {
+        "label": "format_response_as_markdown",
+        "kind": 2,
+        "importPath": "backend.analyze_code",
+        "description": "backend.analyze_code",
+        "peekOfCode": "def format_response_as_markdown(response_dict):\n    \"\"\"Formats the response dictionary as markdown.\"\"\"\n    markdown_response = \"\"\n    for filename, details in response_dict.items():\n        markdown_response += f\"### {filename}\\n\"\n        markdown_response += f\"**Description:** {details['description']}\\n\\n\"\n        markdown_response += f\"**Tech Stack:** {', '.join(details['tech_stack'])}\\n\\n\"\n        markdown_response += f\"**Skillset:** {', '.join(details['skillset'])}\\n\\n\"\n    return markdown_response\ndef analyzer(model: genai.GenerativeModel=model, code_content='', question=\"\"):",
+        "detail": "backend.analyze_code",
+        "documentation": {}
+    },
+    {
+        "label": "analyzer",
+        "kind": 2,
+        "importPath": "backend.analyze_code",
+        "description": "backend.analyze_code",
+        "peekOfCode": "def analyzer(model: genai.GenerativeModel=model, code_content='', question=\"\"):\n# TODO Make these files available on the local file system\n# You may need to update the file paths\n    response = model.generate_content(f\"Based on the code contents {code_content} answer this question {question}\")\n    # print(\"HERE IS THE RESPONSE*****************************\")\n    # print(response.text)\n    return response.text",
+        "detail": "backend.analyze_code",
+        "documentation": {}
+    },
+    {
+        "label": "GEMINI_KEY",
+        "kind": 5,
+        "importPath": "backend.analyze_code",
+        "description": "backend.analyze_code",
+        "peekOfCode": "GEMINI_KEY = os.getenv('GEMINI_API_KEY')\ngenai.configure(api_key=GEMINI_KEY)\ndef upload_to_gemini(path, mime_type=None):\n  \"\"\"Uploads the given file to Gemini.\n  See https://ai.google.dev/gemini-api/docs/prompting_with_media\n  \"\"\"\n  file = genai.upload_file(path, mime_type=mime_type)\n  print(f\"Uploaded file '{file.display_name}' as: {file.uri}\")\n  return file\n# https://ai.google.dev/api/python/google/generativeai/GenerativeModel",
+        "detail": "backend.analyze_code",
+        "documentation": {}
+    },
+    {
+        "label": "generation_config",
+        "kind": 5,
+        "importPath": "backend.analyze_code",
+        "description": "backend.analyze_code",
+        "peekOfCode": "generation_config = {\n  \"temperature\": 1,\n  \"top_p\": 0.95,\n  \"top_k\": 64,\n  \"max_output_tokens\": 8192,\n}\nmodel = genai.GenerativeModel(\n  model_name=\"gemini-1.5-flash\",\n  generation_config=generation_config,\n  # safety_settings = Adjust safety settings",
+        "detail": "backend.analyze_code",
+        "documentation": {}
+    },
+    {
+        "label": "model",
+        "kind": 5,
+        "importPath": "backend.analyze_code",
+        "description": "backend.analyze_code",
+        "peekOfCode": "model = genai.GenerativeModel(\n  model_name=\"gemini-1.5-flash\",\n  generation_config=generation_config,\n  # safety_settings = Adjust safety settings\n  # See https://ai.google.dev/gemini-api/docs/safety-settings\n  system_instruction=\"I am giving you content of all the files inside a repository. Your job is to analyze the code and tell technically the description of what each file is doing and the tech stack and skillset needed to work on this project. Return as a markdown in human readable format\",\n)\ndef format_response_as_markdown(response_dict):\n    \"\"\"Formats the response dictionary as markdown.\"\"\"\n    markdown_response = \"\"",
+        "detail": "backend.analyze_code",
+        "documentation": {}
+    },
+    {
+        "label": "search_code",
+        "kind": 2,
+        "importPath": "backend.api_service",
+        "description": "backend.api_service",
+        "peekOfCode": "def search_code():\n    \"\"\"\n    API endpoint to retrieve file content github\n    Request JSON Body:\n    - username (str): username for github\n    - repo (str): repo name for github\n    Returns:\n    - JSON: A response containing a list of code contents or an error message.\n    \"\"\"\n    # TODO: Parse the request body and call merge_code_content",
+        "detail": "backend.api_service",
+        "documentation": {}
+    },
+    {
+        "label": "app",
+        "kind": 5,
+        "importPath": "backend.api_service",
+        "description": "backend.api_service",
+        "peekOfCode": "app = Flask(__name__)\n# EXPOSED API INTERFACE\nCORS(app)\n@app.route('/summarise', methods=['POST'])\ndef search_code():\n    \"\"\"\n    API endpoint to retrieve file content github\n    Request JSON Body:\n    - username (str): username for github\n    - repo (str): repo name for github",
+        "detail": "backend.api_service",
+        "documentation": {}
+    },
+    {
+        "label": "get_repo_content",
+        "kind": 2,
+        "importPath": "backend.github_search",
+        "description": "backend.github_search",
+        "peekOfCode": "def get_repo_content(owner: str, repo: str, path: str = '') -> List[dict]:\n    \"\"\"\n    Fetch the contents of a GitHub repository.\n    Parameters:\n    - owner (str): GitHub username\n    - repo (str): Repository name\n    - path (str): Path within the repository (default is root)\n    Returns:\n    - List[dict]: List of repository contents\n    \"\"\"",
+        "detail": "backend.github_search",
+        "documentation": {}
+    },
+    {
+        "label": "get_file_content",
+        "kind": 2,
+        "importPath": "backend.github_search",
+        "description": "backend.github_search",
+        "peekOfCode": "def get_file_content(owner: str, repo: str, path: str) -> str:\n    \"\"\"\n    Fetch the content of a file in a GitHub repository.\n    Parameters:\n    - owner (str): GitHub username\n    - repo (str): Repository name\n    - path (str): Path to the file within the repository\n    Returns:\n    - str: Decoded content of the file\n    \"\"\"",
+        "detail": "backend.github_search",
+        "documentation": {}
+    },
+    {
+        "label": "fetch_all_files",
+        "kind": 2,
+        "importPath": "backend.github_search",
+        "description": "backend.github_search",
+        "peekOfCode": "def fetch_all_files(owner, repo, path='')->List[Tuple[str, str]]:\n    \"\"\"\n    Recursively fetch the content of all code files in a GitHub repository.\n    Parameters:\n    - owner (str): GitHub username\n    - repo (str): Repository name\n    - path (str): Path within the repository (default is root)\n    Returns:\n    - List[Tuple[str, str]]: List of tuples containing file paths and their content\n    \"\"\"",
+        "detail": "backend.github_search",
+        "documentation": {}
+    },
+    {
+        "label": "GITHUB_TOKEN",
+        "kind": 5,
+        "importPath": "backend.github_search",
+        "description": "backend.github_search",
+        "peekOfCode": "GITHUB_TOKEN = os.getenv('GITHUBTOKEN')\n# Set headers for authorization\nheaders = {\n    'Authorization': f'token {GITHUB_TOKEN}'\n}\ndef get_repo_content(owner: str, repo: str, path: str = '') -> List[dict]:\n    \"\"\"\n    Fetch the contents of a GitHub repository.\n    Parameters:\n    - owner (str): GitHub username",
+        "detail": "backend.github_search",
+        "documentation": {}
+    },
+    {
+        "label": "headers",
+        "kind": 5,
+        "importPath": "backend.github_search",
+        "description": "backend.github_search",
+        "peekOfCode": "headers = {\n    'Authorization': f'token {GITHUB_TOKEN}'\n}\ndef get_repo_content(owner: str, repo: str, path: str = '') -> List[dict]:\n    \"\"\"\n    Fetch the contents of a GitHub repository.\n    Parameters:\n    - owner (str): GitHub username\n    - repo (str): Repository name\n    - path (str): Path within the repository (default is root)",
+        "detail": "backend.github_search",
         "documentation": {}
     },
     {
@@ -309,123 +426,6 @@
         "description": "frontend.node_modules.flatted.python.test",
         "peekOfCode": "oo = parse('[{\"a\":\"1\",\"b\":\"0\",\"c\":\"2\"},{\"aa\":\"3\"},{\"ca\":\"4\",\"cb\":\"5\",\"cc\":\"6\",\"cd\":\"7\",\"ce\":\"8\",\"cf\":\"9\"},{\"aaa\":\"10\"},{\"caa\":\"4\"},{\"cba\":\"5\"},{\"cca\":\"2\"},{\"cda\":\"4\"},\"value2\",\"value3\",\"value1\"]');\nassert oo['a']['aa']['aaa'] == 'value1' and oo == oo['b'] and oo['c']['ca']['caa'] == oo['c']['ca']\nprint('OK')",
         "detail": "frontend.node_modules.flatted.python.test",
-        "documentation": {}
-    },
-    {
-        "label": "upload_to_gemini",
-        "kind": 2,
-        "importPath": "analyze_code",
-        "description": "analyze_code",
-        "peekOfCode": "def upload_to_gemini(path, mime_type=None):\n  \"\"\"Uploads the given file to Gemini.\n  See https://ai.google.dev/gemini-api/docs/prompting_with_media\n  \"\"\"\n  file = genai.upload_file(path, mime_type=mime_type)\n  print(f\"Uploaded file '{file.display_name}' as: {file.uri}\")\n  return file\n# https://ai.google.dev/api/python/google/generativeai/GenerativeModel\ngeneration_config = {\n  \"temperature\": 1,",
-        "detail": "analyze_code",
-        "documentation": {}
-    },
-    {
-        "label": "format_response_as_markdown",
-        "kind": 2,
-        "importPath": "analyze_code",
-        "description": "analyze_code",
-        "peekOfCode": "def format_response_as_markdown(response_dict):\n    \"\"\"Formats the response dictionary as markdown.\"\"\"\n    markdown_response = \"\"\n    for filename, details in response_dict.items():\n        markdown_response += f\"### {filename}\\n\"\n        markdown_response += f\"**Description:** {details['description']}\\n\\n\"\n        markdown_response += f\"**Tech Stack:** {', '.join(details['tech_stack'])}\\n\\n\"\n        markdown_response += f\"**Skillset:** {', '.join(details['skillset'])}\\n\\n\"\n    return markdown_response\ndef analyzer(model: genai.GenerativeModel=model, code_content='', question=\"\"):",
-        "detail": "analyze_code",
-        "documentation": {}
-    },
-    {
-        "label": "analyzer",
-        "kind": 2,
-        "importPath": "analyze_code",
-        "description": "analyze_code",
-        "peekOfCode": "def analyzer(model: genai.GenerativeModel=model, code_content='', question=\"\"):\n# TODO Make these files available on the local file system\n# You may need to update the file paths\n    response = model.generate_content(f\"Based on the code contents {code_content} answer this question {question}\")\n    # print(\"HERE IS THE RESPONSE*****************************\")\n    # print(response.text)\n    return response.text",
-        "detail": "analyze_code",
-        "documentation": {}
-    },
-    {
-        "label": "GEMINI_KEY",
-        "kind": 5,
-        "importPath": "analyze_code",
-        "description": "analyze_code",
-        "peekOfCode": "GEMINI_KEY = os.getenv('GEMINI_API_KEY')\ngenai.configure(api_key=GEMINI_KEY)\ndef upload_to_gemini(path, mime_type=None):\n  \"\"\"Uploads the given file to Gemini.\n  See https://ai.google.dev/gemini-api/docs/prompting_with_media\n  \"\"\"\n  file = genai.upload_file(path, mime_type=mime_type)\n  print(f\"Uploaded file '{file.display_name}' as: {file.uri}\")\n  return file\n# https://ai.google.dev/api/python/google/generativeai/GenerativeModel",
-        "detail": "analyze_code",
-        "documentation": {}
-    },
-    {
-        "label": "generation_config",
-        "kind": 5,
-        "importPath": "analyze_code",
-        "description": "analyze_code",
-        "peekOfCode": "generation_config = {\n  \"temperature\": 1,\n  \"top_p\": 0.95,\n  \"top_k\": 64,\n  \"max_output_tokens\": 8192,\n}\nmodel = genai.GenerativeModel(\n  model_name=\"gemini-1.5-flash\",\n  generation_config=generation_config,\n  # safety_settings = Adjust safety settings",
-        "detail": "analyze_code",
-        "documentation": {}
-    },
-    {
-        "label": "model",
-        "kind": 5,
-        "importPath": "analyze_code",
-        "description": "analyze_code",
-        "peekOfCode": "model = genai.GenerativeModel(\n  model_name=\"gemini-1.5-flash\",\n  generation_config=generation_config,\n  # safety_settings = Adjust safety settings\n  # See https://ai.google.dev/gemini-api/docs/safety-settings\n  system_instruction=\"I am giving you content of all the files inside a repository. Your job is to analyze the code and tell technically the description of what each file is doing and the tech stack and skillset needed to work on this project. Return as a markdown in human readable format\",\n)\ndef format_response_as_markdown(response_dict):\n    \"\"\"Formats the response dictionary as markdown.\"\"\"\n    markdown_response = \"\"",
-        "detail": "analyze_code",
-        "documentation": {}
-    },
-    {
-        "label": "search_code",
-        "kind": 2,
-        "importPath": "api_service",
-        "description": "api_service",
-        "peekOfCode": "def search_code():\n    \"\"\"\n    API endpoint to retrieve file content github\n    Request JSON Body:\n    - username (str): username for github\n    - repo (str): repo name for github\n    Returns:\n    - JSON: A response containing a list of code contents or an error message.\n    \"\"\"\n    # TODO: Parse the request body and call merge_code_content",
-        "detail": "api_service",
-        "documentation": {}
-    },
-    {
-        "label": "app",
-        "kind": 5,
-        "importPath": "api_service",
-        "description": "api_service",
-        "peekOfCode": "app = Flask(__name__)\n# EXPOSED API INTERFACE\nCORS(app)\n@app.route('/summarise', methods=['POST'])\ndef search_code():\n    \"\"\"\n    API endpoint to retrieve file content github\n    Request JSON Body:\n    - username (str): username for github\n    - repo (str): repo name for github",
-        "detail": "api_service",
-        "documentation": {}
-    },
-    {
-        "label": "get_repo_content",
-        "kind": 2,
-        "importPath": "github_search",
-        "description": "github_search",
-        "peekOfCode": "def get_repo_content(owner: str, repo: str, path: str = '') -> List[dict]:\n    \"\"\"\n    Fetch the contents of a GitHub repository.\n    Parameters:\n    - owner (str): GitHub username\n    - repo (str): Repository name\n    - path (str): Path within the repository (default is root)\n    Returns:\n    - List[dict]: List of repository contents\n    \"\"\"",
-        "detail": "github_search",
-        "documentation": {}
-    },
-    {
-        "label": "get_file_content",
-        "kind": 2,
-        "importPath": "github_search",
-        "description": "github_search",
-        "peekOfCode": "def get_file_content(owner: str, repo: str, path: str) -> str:\n    \"\"\"\n    Fetch the content of a file in a GitHub repository.\n    Parameters:\n    - owner (str): GitHub username\n    - repo (str): Repository name\n    - path (str): Path to the file within the repository\n    Returns:\n    - str: Decoded content of the file\n    \"\"\"",
-        "detail": "github_search",
-        "documentation": {}
-    },
-    {
-        "label": "fetch_all_files",
-        "kind": 2,
-        "importPath": "github_search",
-        "description": "github_search",
-        "peekOfCode": "def fetch_all_files(owner, repo, path='')->List[Tuple[str, str]]:\n    \"\"\"\n    Recursively fetch the content of all code files in a GitHub repository.\n    Parameters:\n    - owner (str): GitHub username\n    - repo (str): Repository name\n    - path (str): Path within the repository (default is root)\n    Returns:\n    - List[Tuple[str, str]]: List of tuples containing file paths and their content\n    \"\"\"",
-        "detail": "github_search",
-        "documentation": {}
-    },
-    {
-        "label": "GITHUB_TOKEN",
-        "kind": 5,
-        "importPath": "github_search",
-        "description": "github_search",
-        "peekOfCode": "GITHUB_TOKEN = os.getenv('GITHUBTOKEN')\n# Set headers for authorization\nheaders = {\n    'Authorization': f'token {GITHUB_TOKEN}'\n}\ndef get_repo_content(owner: str, repo: str, path: str = '') -> List[dict]:\n    \"\"\"\n    Fetch the contents of a GitHub repository.\n    Parameters:\n    - owner (str): GitHub username",
-        "detail": "github_search",
-        "documentation": {}
-    },
-    {
-        "label": "headers",
-        "kind": 5,
-        "importPath": "github_search",
-        "description": "github_search",
-        "peekOfCode": "headers = {\n    'Authorization': f'token {GITHUB_TOKEN}'\n}\ndef get_repo_content(owner: str, repo: str, path: str = '') -> List[dict]:\n    \"\"\"\n    Fetch the contents of a GitHub repository.\n    Parameters:\n    - owner (str): GitHub username\n    - repo (str): Repository name\n    - path (str): Path within the repository (default is root)",
-        "detail": "github_search",
         "documentation": {}
     },
     {
