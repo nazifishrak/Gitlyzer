@@ -116,9 +116,10 @@ export default function Home() {
                 
               </div>
             </div>
-            {response!=""? (<Clipboard.WithIconText className="justify-end fixed top-0" valueToCopy={response} />):(<div></div>)}
+            
             
           </form>
+          {response!=""? (<Clipboard.WithIconText className="justify-end fixed top-10" valueToCopy={response} />):(<div></div>)}
 
           {isLoading ? (
             <div className="flex justify-center items-center mt-6">
