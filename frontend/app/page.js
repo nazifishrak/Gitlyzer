@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Markdown from 'markdown-to-jsx';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { dracula } from 'react-syntax-highlighter/dist/cjs/styles/prism';
-
+import { Clipboard } from "flowbite-react"
 export default function Home() {
   const [repo, setRep] = useState('');
   const [question, setQuestion] = useState('Write');
@@ -59,13 +59,6 @@ export default function Home() {
       <div className="">
         <div className="shadow-md rounded-lg p-8 w-full">
           <div className="text-center mb-6">
-            <Image
-              src={"https://pngimg.com/uploads/github/github_PNG23.png"}
-              height={100}
-              width={300}
-              alt="Github logo"
-              className='justify-start'
-            />
             <h1 className="text-5xl font-extrabold mt-6 mb-6 text-white">Gitlyzer ⚡️</h1>
           </div>
 
@@ -97,7 +90,7 @@ export default function Home() {
             </div>
 
             <div>
-              <label htmlFor="question" className="block text-sm font-bold mb-2 text-gray-700 dark:text-gray-300">{questionLabel}</label>
+              <label htmlFor="question" className="block text-sm font-bold mb-2 text-white">{questionLabel}</label>
               <input
                 type="text"
                 id="question"
@@ -119,8 +112,10 @@ export default function Home() {
                 >
                   Analyze Repository
                 </button>
+                
               </div>
             </div>
+            {response!=""? (<Clipboard.WithIconText className="justify-end fixed top-0" valueToCopy={response} />):(<div></div>)}
             
           </form>
 
@@ -136,31 +131,31 @@ export default function Home() {
               <div className="mt-6">
                 
                 <Markdown
-                  className="prose prose-lg dark:prose-dark text-gray-700 dark:text-gray-300 mx-auto"
+                  className="prose prose-lg text-white mx-auto"
                   options={{
                     overrides: {
                       h1: {
                         component: 'h1',
                         props: {
-                          className: 'text-4xl font-bold text-gray-800 dark:text-white mb-4',
+                          className: 'text-4xl font-bold text-white mb-4',
                         },
                       },
                       h2: {
                         component: 'h2',
                         props: {
-                          className: 'text-3xl font-semibold text-gray-800 dark:text-white mb-3',
+                          className: 'text-3xl font-semibold text-white mb-3',
                         },
                       },
                       h3: {
                         component: 'h3',
                         props: {
-                          className: 'text-2xl font-medium text-gray-800 dark:text-white mb-2',
+                          className: 'text-2xl font-medium text-white mb-2',
                         },
                       },
                       p: {
                         component: 'p',
                         props: {
-                          className: 'text-lg leading-relaxed text-gray-700 dark:text-gray-300 mb-6',
+                          className: 'text-lg leading-relaxed text-white mb-6',
                         },
                       },
                       img: {
@@ -172,7 +167,7 @@ export default function Home() {
                       a: {
                         component: 'a',
                         props: {
-                          className: 'text-blue-600 dark:text-blue-400 hover:underline',
+                          className: 'text-blue-400 hover:underline',
                         },
                       },
                       ul: {
