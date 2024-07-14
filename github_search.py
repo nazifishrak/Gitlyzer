@@ -90,7 +90,7 @@ def fetch_all_files(owner, repo, path='')->List[Tuple[str, str]]:
     code_files = []
 
     for item in repo_content:
-        if item['type'] == 'file' and item['name'].endswith(('.py', '.js', '.java', '.cpp', '.c', '.html', '.css', ".jsx",".tsx", "package.json")):
+        if item['type'] == 'file' and item['name'].endswith(('.py', '.ipynb', '.js', '.java', '.cpp', '.c', '.html', '.css', ".jsx",".tsx", "package.json")):
             file_content = get_file_content(owner, repo, item['path'])
             code_files.append((item['path'], file_content))
         elif item['type'] == 'dir':

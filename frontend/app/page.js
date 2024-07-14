@@ -11,7 +11,7 @@ export default function Home() {
   const [response, setResponse] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [username, setusername] = useState('');
-  const [endpoint, setEndpoint] = useState('search_code');
+  const [endpoint, setEndpoint] = useState('summarise');
   const [loadMessage, setLoadMessage] = useState('Analyzing ⚡...');
   const [questionLabel, setQuestionLabel] = useState('Question');
 
@@ -34,15 +34,8 @@ export default function Home() {
 
       const json = await res.json();
       console.log(json)
-      let output_str=''
-      for (const value of json) {
-        if (value && value.length > 1 && value[1]) {
-            output_str += value[1];
-        } else {
-            console.warn('Encountered undefined value:', value);
-        }
-    }
-      setResponse(output_str);
+      
+      setResponse(json);
       if (res.status === 200) {
         console.log(json);
       }
@@ -59,7 +52,7 @@ export default function Home() {
     <div className="relative min-h-screen">
       {/* Background pattern and effect */}
       <div className="absolute inset-0 -z-10 bg-black bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px] ">
-      <div className="absolute top-0 z-[-2] h-screen w-screen bg-[#000000] bg-[radial-gradient(#ffffff33_1px,#00091d_1px)] bg-[size:20px_20px]"></div>
+      <div className="absolute top-0 z-[-2] h-full w-screen bg-[#000000] bg-[radial-gradient(#ffffff33_1px,#00091d_1px)] bg-[size:20px_20px]"></div>
           
       </div>
       {/* Main content */}
@@ -139,8 +132,10 @@ export default function Home() {
             </div>
           ) : (
             response && (
+              
               <div className="mt-6">
-                {/* <Markdown
+                
+                <Markdown
                   className="prose prose-lg dark:prose-dark text-gray-700 dark:text-gray-300 mx-auto"
                   options={{
                     overrides: {
@@ -196,8 +191,8 @@ export default function Home() {
                   }}
                 >
                   {response}
-                </Markdown> */}
-                {response}
+                </Markdown>
+                
               </div>
             )
           )}
