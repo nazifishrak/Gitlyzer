@@ -5,8 +5,7 @@ from backend.github_search import fetch_all_files
 from backend.analyze_code import analyzer
 app = Flask(__name__)
 # EXPOSED API INTERFACE
-CORS(app)
-
+CORS(app, resources={r"/*": {"origins": "*"}})
 @app.route('/summarise', methods=['POST'])
 def search_code():
     """
@@ -36,7 +35,9 @@ def search_code():
 
     return jsonify(ans)
     
-
+    def return_api_key():
+        return data['apikey']
+        
 
 
 

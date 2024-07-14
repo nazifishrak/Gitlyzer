@@ -11,6 +11,7 @@ export default function Home() {
   const [response, setResponse] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [username, setusername] = useState('');
+  const [apikey, setApikey] = useState('');
   const [endpoint, setEndpoint] = useState('summarise');
   const [loadMessage, setLoadMessage] = useState('Analyzing ⚡...');
   const [questionLabel, setQuestionLabel] = useState('Question');
@@ -19,6 +20,7 @@ export default function Home() {
     event.preventDefault();
     setIsLoading(true);
     const body = {
+      apikey: apikey,
       username: username,
       repo: repo,
       question: question
@@ -64,6 +66,7 @@ export default function Home() {
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
+            
             <div className="md:flex md:space-x-6">
               <div className="flex-1">
                 <label htmlFor="repo" className="block text-sm font-bold mb-2 text-white">Repository Name</label>
@@ -77,6 +80,18 @@ export default function Home() {
                 />
               </div>
 
+              
+              <div className="flex-1">
+                <label htmlFor="apikey" className="block text-sm font-bold mb-2 text-white">Gemini API Key</label>
+                <input
+                  type="text"
+                  id="apikey"
+                  value={apikey}
+                  onChange={(e) => setApikey(e.target.value)}
+                  required
+                  className="w-full px-3 py-2 text-black placeholder-gray-300 dark:placeholder-gray-500 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 dark:focus:ring-indigo-900 focus:border-indigo-300 dark:focus:border-indigo-700"
+                />
+              </div>
               <div className="flex-1">
                 <label htmlFor="username" className="block text-sm font-bold mb-2 text-white">User Name</label>
                 <input
@@ -122,77 +137,75 @@ export default function Home() {
           {response!=""? (<Clipboard.WithIconText className="justify-end fixed top-10" valueToCopy={response} />):(<div></div>)}
 
           {isLoading ? (
-            <div className="flex justify-center items-center mt-6">
-              <div className="px-3 py-1 text-xl font-medium leading-none text-center text-blue-800 bg-blue-200 rounded-full animate-pulse dark:bg-blue-900 dark:text-blue-200">
-                {loadMessage}
-              </div>
-            </div>
-          ) : (
-            response && (
-              
-              <div className="mt-6">
-                
-                <Markdown
-                  className="prose prose-lg text-white mx-auto"
-                  options={{
-                    overrides: {
-                      h1: {
-                        component: 'h1',
-                        props: {
-                          className: 'text-4xl font-bold text-white mb-4',
-                        },
-                      },
-                      h2: {
-                        component: 'h2',
-                        props: {
-                          className: 'text-3xl font-semibold text-white mb-3',
-                        },
-                      },
-                      h3: {
-                        component: 'h3',
-                        props: {
-                          className: 'text-2xl font-medium text-white mb-2',
-                        },
-                      },
-                      p: {
-                        component: 'p',
-                        props: {
-                          className: 'text-lg leading-relaxed text-white mb-6',
-                        },
-                      },
-                      img: {
-                        component: 'img',
-                        props: {
-                          className: 'custom-img mx-auto rounded-lg object-cover shadow-lg mb-6',
-                        },
-                      },
-                      a: {
-                        component: 'a',
-                        props: {
-                          className: 'text-blue-400 hover:underline',
-                        },
-                      },
-                      ul: {
-                        component: 'ul',
-                        props: {
-                          className: 'list-disc list-inside mb-6',
-                        },
-                      },
-                      li: {
-                        component: 'li',
-                        props: {
-                          className: 'mb-2',
-                        },
-                      },
-                    },
-                  }}
-                >
-                  {response}
-                </Markdown>
-                
-              </div>
-            )
-          )}
+  <div className="flex justify-center items-center mt-6">
+    <div className="px-3 py-1 text-xl font-medium leading-none text-center text-blue-800 bg-blue-200 rounded-full animate-pulse dark:bg-blue-900 dark:text-blue-200">
+      {loadMessage}
+    </div>
+  </div>
+) : (
+  response && (
+    <div className="mt-6">
+      <Markdown
+        className="prose prose-lg text-white mx-auto"
+        options={{
+          overrides: {
+            h1: {
+              component: 'h1',
+              props: {
+                className: 'text-4xl font-bold text-white mb-4',
+              },
+            },
+            h2: {
+              component: 'h2',
+              props: {
+                className: 'text-3xl font-semibold text-white mb-3',
+              },
+            },
+            h3: {
+              component: 'h3',
+              props: {
+                className: 'text-2xl font-medium text-white mb-2',
+              },
+            },
+            p: {
+              component: 'p',
+              props: {
+                className: 'text-lg leading-relaxed text-white mb-6',
+              },
+            },
+            img: {
+              component: 'img',
+              props: {
+                className: 'custom-img mx-auto rounded-lg object-cover shadow-lg mb-6',
+              },
+            },
+            a: {
+              component: 'a',
+              props: {
+                className: 'text-blue-400 hover:underline',
+              },
+            },
+            ul: {
+              component: 'ul',
+              props: {
+                className: 'list-disc list-inside mb-6',
+              },
+            },
+            li: {
+              component: 'li',
+              props: {
+                className: 'mb-2',
+              },
+            },
+          },
+        }}
+      >
+        {typeof response === 'string' ? response : JSON.stringify(response)}
+      </Markdown>
+    </div>
+  )
+)}
+
         </div>
       </div>
     </div>
