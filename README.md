@@ -1,5 +1,5 @@
 # GitHub Code Analyzer
-
+![alt text](image.png)
 ## Overview
 
 Gitlyzer is an application designed to scan a GitHub repository and provide a detailed analysis of its contents. It can tell what the repository is about, what it does, and the tech stacks used. This project leverages both frontend and backend technologies, utilizing Google's Gemini API for code analysis.
