@@ -1,8 +1,9 @@
 import requests
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from backend.github_search import fetch_all_files
-from backend.analyze_code import analyzer
+from github_search import fetch_all_files
+from analyze_code import analyzer, analyzer_langChain
+
 app = Flask(__name__)
 # EXPOSED API INTERFACE
 CORS(app)
@@ -31,7 +32,7 @@ def search_code():
         llm_input+=file_content
     print(llm_input)
 
-    ans=analyzer(code_content=llm_input,question=question)
+    ans=analyzer_langChain(code_content=llm_input,question=question)
 
 
     return jsonify(ans)
