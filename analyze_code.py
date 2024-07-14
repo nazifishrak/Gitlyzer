@@ -41,19 +41,15 @@ def format_response_as_markdown(response_dict):
         markdown_response += f"**Tech Stack:** {', '.join(details['tech_stack'])}\n\n"
         markdown_response += f"**Skillset:** {', '.join(details['skillset'])}\n\n"
     return markdown_response
-def analyzer(model: genai.GenerativeModel=model, code_content=''):
+def analyzer(model: genai.GenerativeModel=model, code_content='', question=""):
 
 # TODO Make these files available on the local file system
 # You may need to update the file paths
 
 
-    chat_session = model.start_chat(
-    history=[]
-    )
-
-    response = chat_session.send_message(code_content)
-    print("HERE IS THE RESPONSE*****************************")
-    print(response.text)
+    response = model.generate_content(f"Based on the code contents {code_content} answer this question {question}")
+    # print("HERE IS THE RESPONSE*****************************")
+    # print(response.text)
     
 
     return response.text

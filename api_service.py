@@ -23,6 +23,7 @@ def search_code():
     data = request.json
     username = data['username']
     repo = data['repo']
+    question = data['question']
     output = fetch_all_files(owner=username, repo=repo)
     llm_input = ''
     for file in output:
@@ -30,7 +31,7 @@ def search_code():
         llm_input+=file_content
     print(llm_input)
 
-    ans=analyzer(code_content=llm_input)
+    ans=analyzer(code_content=llm_input,question=question)
 
 
     return jsonify(ans)

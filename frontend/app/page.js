@@ -21,6 +21,7 @@ export default function Home() {
     const body = {
       username: username,
       repo: repo,
+      question: question
     };
 
     try {

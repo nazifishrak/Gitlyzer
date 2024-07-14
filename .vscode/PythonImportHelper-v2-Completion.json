@@ -325,7 +325,7 @@
         "kind": 2,
         "importPath": "analyze_code",
         "description": "analyze_code",
-        "peekOfCode": "def format_response_as_markdown(response_dict):\n    \"\"\"Formats the response dictionary as markdown.\"\"\"\n    markdown_response = \"\"\n    for filename, details in response_dict.items():\n        markdown_response += f\"### {filename}\\n\"\n        markdown_response += f\"**Description:** {details['description']}\\n\\n\"\n        markdown_response += f\"**Tech Stack:** {', '.join(details['tech_stack'])}\\n\\n\"\n        markdown_response += f\"**Skillset:** {', '.join(details['skillset'])}\\n\\n\"\n    return markdown_response\ndef analyzer(model: genai.GenerativeModel=model, code_content=''):",
+        "peekOfCode": "def format_response_as_markdown(response_dict):\n    \"\"\"Formats the response dictionary as markdown.\"\"\"\n    markdown_response = \"\"\n    for filename, details in response_dict.items():\n        markdown_response += f\"### {filename}\\n\"\n        markdown_response += f\"**Description:** {details['description']}\\n\\n\"\n        markdown_response += f\"**Tech Stack:** {', '.join(details['tech_stack'])}\\n\\n\"\n        markdown_response += f\"**Skillset:** {', '.join(details['skillset'])}\\n\\n\"\n    return markdown_response\ndef analyzer(model: genai.GenerativeModel=model, code_content='', question=\"\"):",
         "detail": "analyze_code",
         "documentation": {}
     },
@@ -334,7 +334,7 @@
         "kind": 2,
         "importPath": "analyze_code",
         "description": "analyze_code",
-        "peekOfCode": "def analyzer(model: genai.GenerativeModel=model, code_content=''):\n# TODO Make these files available on the local file system\n# You may need to update the file paths\n    chat_session = model.start_chat(\n    history=[]\n    )\n    response = chat_session.send_message(code_content)\n    print(\"HERE IS THE RESPONSE*****************************\")\n    print(response.text)\n    return response.text",
+        "peekOfCode": "def analyzer(model: genai.GenerativeModel=model, code_content='', question=\"\"):\n# TODO Make these files available on the local file system\n# You may need to update the file paths\n    response = model.generate_content(f\"Based on the code contents {code_content} answer this question {question}\")\n    # print(\"HERE IS THE RESPONSE*****************************\")\n    # print(response.text)\n    return response.text",
         "detail": "analyze_code",
         "documentation": {}
     },
