@@ -52,7 +52,7 @@ export default function Home() {
     <div className="relative min-h-screen">
       {/* Background pattern and effect */}
       <div className="absolute inset-0 -z-10 bg-black bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px] ">
-      <div className="absolute top-0 z-[-2] h-screen w-screen bg-[#000000] bg-[radial-gradient(#ffffff33_1px,#00091d_1px)] bg-[size:20px_20px]"></div>
+      <div className="absolute top-0 z-[-2] h-full w-screen bg-[#000000] bg-[radial-gradient(#ffffff33_1px,#00091d_1px)] bg-[size:20px_20px]"></div>
           
       </div>
       {/* Main content */}
@@ -132,7 +132,9 @@ export default function Home() {
             </div>
           ) : (
             response && (
+              
               <div className="mt-6">
+                
                 <Markdown
                   className="prose prose-lg dark:prose-dark text-gray-700 dark:text-gray-300 mx-auto"
                   options={{
