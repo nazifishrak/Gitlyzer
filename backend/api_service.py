@@ -31,7 +31,7 @@ def search_code():
         file_content = f"File name {file[0]} and here is the corresponding code {file[1]}"
         llm_input+=file_content
     print(llm_input)
-
+    print(question)
     ans=analyzer_langChain(code_content=llm_input,question=question)
 
 

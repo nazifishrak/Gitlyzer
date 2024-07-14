@@ -220,7 +220,7 @@
         "kind": 2,
         "importPath": "backend.analyze_code",
         "description": "backend.analyze_code",
-        "peekOfCode": "def analyzer_langChain(code_content='', question=\"\"):\n    system_instruction = \"I am giving you content of all the files inside a repository. Your job is to analyze the code and tell technically the description of what each file is doing and the tech stack and skillset needed to work on this project. Return as a markdown in human readable format.\"\n    template = f\"\"\"{system_instruction}\n    Based on the code contents {{code_content}} answer this question {{question}}.\"\"\"\n    prompt = PromptTemplate.from_template(template)\n    chain = prompt | llm\n    response = chain.invoke({\"code_content\": code_content, \"question\": question})\n    return response",
+        "peekOfCode": "def analyzer_langChain(code_content='', question=\"\"):\n    system_instruction = f\"I am giving you content of all the files inside a repository. Your job is to analyze the code and technically the description of what each file is doing and the tech stack and skillset needed to work on this project. Return as a markdown in human readable format. and answer this {{question}}\"\n    template = f\"\"\"{system_instruction}\n    Based on the code contents {{code_content}} answer .\"\"\"\n    prompt = PromptTemplate.from_template(template)\n    chain = prompt | llm\n    response = chain.invoke({\"code_content\": code_content, \"question\": question})\n    return response",
         "detail": "backend.analyze_code",
         "documentation": {}
     },
@@ -256,7 +256,7 @@
         "kind": 5,
         "importPath": "backend.analyze_code",
         "description": "backend.analyze_code",
-        "peekOfCode": "llm = GoogleGenerativeAI(model=\"gemini-1.5-flash\", google_api_key=GEMINI_KEY)\n# Analyzer function using langchain\ndef analyzer_langChain(code_content='', question=\"\"):\n    system_instruction = \"I am giving you content of all the files inside a repository. Your job is to analyze the code and tell technically the description of what each file is doing and the tech stack and skillset needed to work on this project. Return as a markdown in human readable format.\"\n    template = f\"\"\"{system_instruction}\n    Based on the code contents {{code_content}} answer this question {{question}}.\"\"\"\n    prompt = PromptTemplate.from_template(template)\n    chain = prompt | llm\n    response = chain.invoke({\"code_content\": code_content, \"question\": question})\n    return response",
+        "peekOfCode": "llm = GoogleGenerativeAI(model=\"gemini-1.5-flash\", google_api_key=GEMINI_KEY)\n# Analyzer function using langchain\ndef analyzer_langChain(code_content='', question=\"\"):\n    system_instruction = f\"I am giving you content of all the files inside a repository. Your job is to analyze the code and technically the description of what each file is doing and the tech stack and skillset needed to work on this project. Return as a markdown in human readable format. and answer this {{question}}\"\n    template = f\"\"\"{system_instruction}\n    Based on the code contents {{code_content}} answer .\"\"\"\n    prompt = PromptTemplate.from_template(template)\n    chain = prompt | llm\n    response = chain.invoke({\"code_content\": code_content, \"question\": question})\n    return response",
         "detail": "backend.analyze_code",
         "documentation": {}
     },
