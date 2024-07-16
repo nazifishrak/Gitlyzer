@@ -20,7 +20,11 @@ def analyzer_langChain(code_content='', question=""):
     Based on the code contents {{code_content}} answer this question {{question}}."""
     prompt = PromptTemplate.from_template(template)
     chain = prompt | llm
-    response = chain.invoke({"code_content": code_content, "question": question})
-    return response
+    # response = chain.invoke({"code_content": code_content, "question": question})
+    for chunk in chain.stream({"code_content": code_content, "question": question}):
+        yield chunk
+
+    
 
 
+print(analyzer_langChain())
