@@ -2,13 +2,11 @@
 import os
 from dotenv import load_dotenv
 import google.generativeai as genai
+from langchain_google_genai import GoogleGenerativeAI
+from langchain_core.prompts import PromptTemplate
 load_dotenv()
-from api_service import return_api_key
-
-GEMINI_API_KEY = return_api_key()
-GEMINI_KEY = os.getenv('GEMINI_API_KEY', GEMINI_API_KEY)
+GEMINI_KEY = os.getenv('GEMINI_API_KEY')
 genai.configure(api_key=GEMINI_KEY)
-
 
 def upload_to_gemini(path, mime_type=None):
   """Uploads the given file to Gemini.
@@ -56,3 +54,32 @@ def analyzer(model: genai.GenerativeModel=model, code_content='', question=""):
     
 
     return response.text
+
+
+llm = GoogleGenerativeAI(model="gemini-1.5-flash", google_api_key=GEMINI_KEY)
+
+
+
+# Analyzer function using langchain
+def analyzer_langChain(code_content='', question=""):
+    
+    system_instruction = f"I am giving you content of all the files inside a repository. Your job is to analyze the code and technically the description of what each file is doing and the tech stack and skillset needed to work on this project. Return as a markdown in human readable format. and answer this {{question}}"
+    template = f"""{system_instruction}
+    
+    Based on the code contents {{code_content}} answer ."""
+    prompt = PromptTemplate.from_template(template)
+    chain = prompt | llm
+    response = chain.invoke({"code_content": code_content, "question": question})
+    return response
+
+
+def analyzer_streamed(code_content='', question=''):
+    system_instruction = "I am giving you content of all the files inside a repository. Your job is to analyze the code and tell technically the description of what each file is doing and the tech stack and skillset needed to work on this project. Return as a markdown in human readable format."
+    template = f"""{system_instruction}
+    
+    Based on the code contents {{code_content}} answer this question {{question}}."""
+    prompt = PromptTemplate.from_template(template)
+    chain = prompt | llm
+    # response = chain.invoke({"code_content": code_content, "question": question})
+    for chunk in chain.stream({"code_content": code_content, "question": question}):
+        yield chunk
