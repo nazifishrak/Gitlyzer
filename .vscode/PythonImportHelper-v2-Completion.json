@@ -326,7 +326,7 @@
         "kind": 2,
         "importPath": "backend.github_search",
         "description": "backend.github_search",
-        "peekOfCode": "def fetch_all_files(owner, repo, path='')->List[Tuple[str, str]]:\n    \"\"\"\n    Recursively fetch the content of all code files in a GitHub repository.\n    Parameters:\n    - owner (str): GitHub username\n    - repo (str): Repository name\n    - path (str): Path within the repository (default is root)\n    Returns:\n    - List[Tuple[str, str]]: List of tuples containing file paths and their content\n    \"\"\"",
+        "peekOfCode": "def fetch_all_files(owner: str, repo: str, path: str = '') -> List[Tuple[str, str]]:\n    \"\"\"\n    Recursively fetch the content of all code files in a GitHub repository.\n    Parameters:\n    - owner (str): GitHub username\n    - repo (str): Repository name\n    - path (str): Path within the repository (default is root)\n    Returns:\n    - List[Tuple[str, str]]: List of tuples containing file paths and their content\n    \"\"\"",
         "detail": "backend.github_search",
         "documentation": {}
     },

@@ -74,7 +74,7 @@ def get_file_content(owner: str, repo: str, path: str) -> str:
     content = response.json()
     return base64.b64decode(content['content']).decode('utf-8')
 
-def fetch_all_files(owner, repo, path='')->List[Tuple[str, str]]:
+def fetch_all_files(owner: str, repo: str, path: str = '') -> List[Tuple[str, str]]:
     """
     Recursively fetch the content of all code files in a GitHub repository.
 
@@ -89,11 +89,13 @@ def fetch_all_files(owner, repo, path='')->List[Tuple[str, str]]:
     repo_content = get_repo_content(owner, repo, path)
     code_files = []
 
+    skip_dirs = ['node_modules', 'vendor', 'venv', 'env', 'dist', 'build']
+
     for item in repo_content:
-        if item['type'] == 'file' and item['name'].endswith(('.py', '.ipynb', '.js', '.java', '.cpp', '.c', '.html', '.css', ".jsx",".tsx", "package.json")):
+        if item['type'] == 'file' and item['name'].endswith(('.py', '.ipynb', '.js', '.java', '.cpp', '.c', '.html', '.css', '.jsx', '.tsx', 'package.json')):
             file_content = get_file_content(owner, repo, item['path'])
             code_files.append((item['path'], file_content))
-        elif item['type'] == 'dir':
+        elif item['type'] == 'dir' and item['name'] not in skip_dirs:
             # Recursive call to do the same for the remaining tree
             code_files.extend(fetch_all_files(owner, repo, item['path']))
     
