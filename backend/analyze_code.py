@@ -77,3 +77,15 @@ def analyzer_langChain(code_content='', question=""):
     chain = prompt | llm
     response = chain.invoke({"code_content": code_content, "question": question})
     return response
+
+
+def analyzer_streamed(code_content='', question=''):
+    system_instruction = "I am giving you content of all the files inside a repository. Your job is to analyze the code and tell technically the description of what each file is doing and the tech stack and skillset needed to work on this project. Return as a markdown in human readable format."
+    template = f"""{system_instruction}
+    
+    Based on the code contents {{code_content}} answer this question {{question}}."""
+    prompt = PromptTemplate.from_template(template)
+    chain = prompt | llm
+    # response = chain.invoke({"code_content": code_content, "question": question})
+    for chunk in chain.stream({"code_content": code_content, "question": question}):
+        yield chunk
