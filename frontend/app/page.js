@@ -52,7 +52,8 @@ export default function Home() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${githubApiKey}`, 
+          'git_api_key': `${githubApiKey}`, 
+          'gemini_api_key': `${geminiApiKey}`
         },
         body: JSON.stringify(body),
       });
