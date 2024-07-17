@@ -22,3 +22,4 @@ services:
       - ./frontend:/app
     environment:
       - NODE_ENV=development
+      - REACT_APP_BACKEND_URL=http://backend:5000

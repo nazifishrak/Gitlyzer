@@ -50,9 +50,9 @@ export default function Home() {
 
       
     };
-
+    const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:5000';
     try {
-      const res = await fetch(`http://127.0.0.1:5000/${endpoint}`, {
+      const res = await fetch(`${backendUrl}/${endpoint}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
