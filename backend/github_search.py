@@ -5,15 +5,15 @@ import os
 from typing import List, Tuple
 # PRIVATE FILE ONLY TO BE USED FOR API SERVICE
 # Load environment variables
-load_dotenv()
-GITHUB_TOKEN = os.getenv('GITHUBTOKEN')
+# load_dotenv()
+# GITHUB_TOKEN = os.getenv('GITHUBTOKEN')
 
 # Set headers for authorization
-headers = {
-    'Authorization': f'token {GITHUB_TOKEN}'
-}
+# headers = {
+#     'Authorization': f'token {GITHUB_TOKEN}'
+# }
 
-def get_repo_content(owner: str, repo: str, path: str = '') -> List[dict]:
+def get_repo_content(owner: str, repo: str, path: str = '',git_api_key='') -> List[dict]:
     """
     Fetch the contents of a GitHub repository.
 
@@ -25,6 +25,10 @@ def get_repo_content(owner: str, repo: str, path: str = '') -> List[dict]:
     Returns:
     - List[dict]: List of repository contents
     """
+
+    headers = {
+    'Authorization': f'token {git_api_key}'
+    }
     url = f'https://api.github.com/repos/{owner}/{repo}/contents/{path}'
     """
     E.g Response: [
@@ -56,7 +60,7 @@ def get_repo_content(owner: str, repo: str, path: str = '') -> List[dict]:
     response.raise_for_status()
     return response.json()
 
-def get_file_content(owner: str, repo: str, path: str) -> str:
+def get_file_content(owner: str, repo: str, path: str, git_api_key='') -> str:
     """
     Fetch the content of a file in a GitHub repository.
 
@@ -68,13 +72,16 @@ def get_file_content(owner: str, repo: str, path: str) -> str:
     Returns:
     - str: Decoded content of the file
     """
+    headers = {
+    'Authorization': f'token {git_api_key}'
+    }
     url = f'https://api.github.com/repos/{owner}/{repo}/contents/{path}'
     response = requests.get(url, headers=headers)
     response.raise_for_status()
     content = response.json()
     return base64.b64decode(content['content']).decode('utf-8')
 
-def fetch_all_files(owner: str, repo: str, path: str = '') -> List[Tuple[str, str]]:
+def fetch_all_files(owner: str, repo: str, path: str = '',git_api_key='') -> List[Tuple[str, str]]:
     """
     Recursively fetch the content of all code files in a GitHub repository.
 
@@ -86,18 +93,18 @@ def fetch_all_files(owner: str, repo: str, path: str = '') -> List[Tuple[str, st
     Returns:
     - List[Tuple[str, str]]: List of tuples containing file paths and their content
     """
-    repo_content = get_repo_content(owner, repo, path)
+    repo_content = get_repo_content(owner, repo, path, git_api_key)
     code_files = []
 
     skip_dirs = ['node_modules', 'vendor', 'venv', 'env', 'dist', 'build']
 
     for item in repo_content:
         if item['type'] == 'file' and item['name'].endswith(('.py', '.ipynb', '.js', '.java', '.cpp', '.c', '.html', '.css', '.jsx', '.tsx', 'package.json')):
-            file_content = get_file_content(owner, repo, item['path'])
+            file_content = get_file_content(owner, repo, item['path'], git_api_key)
             code_files.append((item['path'], file_content))
         elif item['type'] == 'dir' and item['name'] not in skip_dirs:
             # Recursive call to do the same for the remaining tree
-            code_files.extend(fetch_all_files(owner, repo, item['path']))
+            code_files.extend(fetch_all_files(owner, repo, item['path'], git_api_key=git_api_key))
     
     return code_files
 
