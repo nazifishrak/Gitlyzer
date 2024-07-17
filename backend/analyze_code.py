@@ -79,7 +79,8 @@ def analyzer_langChain(code_content='', question=""):
     return response
 
 
-def analyzer_streamed(code_content='', question=''):
+def analyzer_streamed(code_content='', question='',gemini_api_key=''):
+    llm = GoogleGenerativeAI(model="gemini-1.5-flash", google_api_key=gemini_api_key)
     system_instruction = "I am giving you content of all the files inside a repository. Your job is to analyze the code and tell technically the description of what each file is doing and the tech stack and skillset needed to work on this project. Return as a markdown in human readable format."
     template = f"""{system_instruction}
     

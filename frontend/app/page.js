@@ -44,7 +44,11 @@ export default function Home() {
     const body = {
       username: username,
       repo: repo,
-      question: question
+      question: question,
+      git_api_key: githubApiKey,
+      gemini_api_key: geminiApiKey
+
+      
     };
 
     try {
