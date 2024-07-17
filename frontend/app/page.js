@@ -14,6 +14,28 @@ export default function Home() {
   const [endpoint, setEndpoint] = useState('summarise');
   const [loadMessage, setLoadMessage] = useState('Analyzing ⚡...');
   const [questionLabel, setQuestionLabel] = useState('Question');
+  const [showPopup, setShowPopup] = useState(false);
+  const [geminiApiKey, setGeminiApiKey] = useState('');
+  const [githubApiKey, setGithubApiKey] = useState('');
+
+  useEffect(() => {
+    const storedGeminiApiKey = localStorage.getItem('gemini_api_key');
+    const storedGithubApiKey = localStorage.getItem('github_api_key');
+    
+    if (!storedGeminiApiKey || !storedGithubApiKey) {
+      setShowPopup(true);
+    } else {
+      setGeminiApiKey(storedGeminiApiKey);
+      setGithubApiKey(storedGithubApiKey);
+    }
+  }, []);
+
+  const handleApiKeySubmit = (event) => {
+    event.preventDefault();
+    localStorage.setItem('gemini_api_key', geminiApiKey);
+    localStorage.setItem('github_api_key', githubApiKey);
+    setShowPopup(false);
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -30,6 +52,7 @@ export default function Home() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${githubApiKey}`, 
         },
         body: JSON.stringify(body),
       });
@@ -193,6 +216,43 @@ export default function Home() {
           )}
         </div>
       </div>
+      {showPopup && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="bg-white p-8 rounded-lg shadow-lg">
+            <h2 className="text-2xl text-black font-bold mb-4">Enter API Keys</h2>
+            <form onSubmit={handleApiKeySubmit} className="space-y-4">
+              <div>
+                <label htmlFor="geminiApiKey" className="block text-black text-sm font-bold mb-2">Gemini API Key</label>
+                <input
+                  type="text"
+                  id="geminiApiKey"
+                  value={geminiApiKey}
+                  onChange={(e) => setGeminiApiKey(e.target.value)}
+                  required
+                  className="w-full px-3 py-2 border text-black border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300"
+                />
+              </div>
+              <div>
+                <label htmlFor="githubApiKey" className="block text-black text-sm font-bold mb-2">GitHub API Key</label>
+                <input
+                  type="text"
+                  id="githubApiKey"
+                  value={githubApiKey}
+                  onChange={(e) => setGithubApiKey(e.target.value)}
+                  required
+                  className="w-full px-3 py-2 border text-black border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300"
+                />
+              </div>
+              <button
+                type="submit"
+                className="px-4 py-2 bg-blue-500 text-white font-bold rounded-md hover:bg-blue-600"
+              >
+                Save API Keys
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
