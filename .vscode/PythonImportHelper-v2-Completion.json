@@ -254,7 +254,7 @@
         "kind": 5,
         "importPath": "backend.analyze_code",
         "description": "backend.analyze_code",
-        "peekOfCode": "GEMINI_KEY = os.getenv('GEMINI_API_KEY')\ngenai.configure(api_key=GEMINI_KEY)\ndef upload_to_gemini(path, mime_type=None):\n  \"\"\"Uploads the given file to Gemini.\n  See https://ai.google.dev/gemini-api/docs/prompting_with_media\n  \"\"\"\n  file = genai.upload_file(path, mime_type=mime_type)\n  print(f\"Uploaded file '{file.display_name}' as: {file.uri}\")\n  return file\n# https://ai.google.dev/api/python/google/generativeai/GenerativeModel",
+        "peekOfCode": "GEMINI_KEY = 'abc'\n# genai.configure(api_key=GEMINI_KEY)\ndef upload_to_gemini(path, mime_type=None):\n  \"\"\"Uploads the given file to Gemini.\n  See https://ai.google.dev/gemini-api/docs/prompting_with_media\n  \"\"\"\n  file = genai.upload_file(path, mime_type=mime_type)\n  print(f\"Uploaded file '{file.display_name}' as: {file.uri}\")\n  return file\n# https://ai.google.dev/api/python/google/generativeai/GenerativeModel",
         "detail": "backend.analyze_code",
         "documentation": {}
     },
@@ -327,24 +327,6 @@
         "importPath": "backend.github_search",
         "description": "backend.github_search",
         "peekOfCode": "def fetch_all_files(owner: str, repo: str, path: str = '',git_api_key='') -> List[Tuple[str, str]]:\n    \"\"\"\n    Recursively fetch the content of all code files in a GitHub repository.\n    Parameters:\n    - owner (str): GitHub username\n    - repo (str): Repository name\n    - path (str): Path within the repository (default is root)\n    Returns:\n    - List[Tuple[str, str]]: List of tuples containing file paths and their content\n    \"\"\"",
-        "detail": "backend.github_search",
-        "documentation": {}
-    },
-    {
-        "label": "GITHUB_TOKEN",
-        "kind": 5,
-        "importPath": "backend.github_search",
-        "description": "backend.github_search",
-        "peekOfCode": "GITHUB_TOKEN = os.getenv('GITHUBTOKEN')\n# Set headers for authorization\nheaders = {\n    'Authorization': f'token {GITHUB_TOKEN}'\n}\ndef get_repo_content(owner: str, repo: str, path: str = '',git_api_key='') -> List[dict]:\n    \"\"\"\n    Fetch the contents of a GitHub repository.\n    Parameters:\n    - owner (str): GitHub username",
-        "detail": "backend.github_search",
-        "documentation": {}
-    },
-    {
-        "label": "headers",
-        "kind": 5,
-        "importPath": "backend.github_search",
-        "description": "backend.github_search",
-        "peekOfCode": "headers = {\n    'Authorization': f'token {GITHUB_TOKEN}'\n}\ndef get_repo_content(owner: str, repo: str, path: str = '',git_api_key='') -> List[dict]:\n    \"\"\"\n    Fetch the contents of a GitHub repository.\n    Parameters:\n    - owner (str): GitHub username\n    - repo (str): Repository name\n    - path (str): Path within the repository (default is root)",
         "detail": "backend.github_search",
         "documentation": {}
     },

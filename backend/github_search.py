@@ -5,13 +5,13 @@ import os
 from typing import List, Tuple
 # PRIVATE FILE ONLY TO BE USED FOR API SERVICE
 # Load environment variables
-load_dotenv()
-GITHUB_TOKEN = os.getenv('GITHUBTOKEN')
+# load_dotenv()
+# GITHUB_TOKEN = os.getenv('GITHUBTOKEN')
 
 # Set headers for authorization
-headers = {
-    'Authorization': f'token {GITHUB_TOKEN}'
-}
+# headers = {
+#     'Authorization': f'token {GITHUB_TOKEN}'
+# }
 
 def get_repo_content(owner: str, repo: str, path: str = '',git_api_key='') -> List[dict]:
     """

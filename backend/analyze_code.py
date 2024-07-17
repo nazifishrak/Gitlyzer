@@ -4,9 +4,10 @@ from dotenv import load_dotenv
 import google.generativeai as genai
 from langchain_google_genai import GoogleGenerativeAI
 from langchain_core.prompts import PromptTemplate
-load_dotenv()
-GEMINI_KEY = os.getenv('GEMINI_API_KEY')
-genai.configure(api_key=GEMINI_KEY)
+# load_dotenv()
+# GEMINI_KEY = os.getenv('GEMINI_API_KEY')
+GEMINI_KEY = 'abc'
+# genai.configure(api_key=GEMINI_KEY)
 
 
 
