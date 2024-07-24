@@ -53,7 +53,14 @@ export default function Home() {
         <ResponseDisplay response={response} isLoading={isLoading} />
       </div>
 
-
+      {showSettingsModal && (
+        <SettingsModal
+          geminiApiKey={geminiApiKey}
+          githubApiKey={githubApiKey}
+          onSave={handleApiKeySave}
+          onClose={() => setShowSettingsModal(false)}
+        />
+      )}
     </div>
   );
 }
