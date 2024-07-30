@@ -5,6 +5,7 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
+    image: us-central1-docker.pkg.dev/gitlyzer/my-repo/backend:v1.0.0
     ports:
       - "5000:5000"
     volumes:
@@ -16,6 +17,7 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
+    image: us-central1-docker.pkg.dev/gitlyzer/my-repo/frontend:v1.0.0
     ports:
       - "3000:3000"
     volumes:
